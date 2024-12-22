@@ -96,12 +96,30 @@ func (o *Options) validate() error {
 // Token performs the exchange to get a temporary service account token to allow access to GCP.
 func (o *Options) Token(ctx context.Context) (*auth.Token, error) {
 	logger := internallog.New(o.Logger)
-	lifetime := defaultTokenLifetime
-	if o.TokenLifetimeSeconds != 0 {
-		lifetime = fmt.Sprintf("%ds", o.TokenLifetimeSeconds)
-	}
+	// lifetime := defaultTokenLifetime
+	// if o.TokenLifetimeSeconds != 0 {
+	// 	lifetime = fmt.Sprintf("%ds", o.TokenLifetimeSeconds)
+	// }
 	reqBody := generateAccessTokenReq{
-		Lifetime:  lifetime,
+		// NOTE: # Comment out because it causes the following error.
+		// 2024/12/22 23:39:48 Failed to get token: credentials: status code 400: {
+		// 	"error": {
+		// 		"code": 400,
+		// 		"message": "Invalid JSON payload received. Unknown name \"lifetime\": Cannot find field.",
+		// 		"status": "INVALID_ARGUMENT",
+		// 		"details": [
+		// 			{
+		// 				"@type": "type.googleapis.com/google.rpc.BadRequest",
+		// 				"fieldViolations": [
+		// 					{
+		// 						"description": "Invalid JSON payload received. Unknown name \"lifetime\": Cannot find field."
+		// 					}
+		// 				]
+		// 			}
+		// 		]
+		// 	}
+		// }
+		// Lifetime:  lifetime,
 		Scope:     o.Scopes,
 		Delegates: o.Delegates,
 	}
