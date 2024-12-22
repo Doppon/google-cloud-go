@@ -137,7 +137,7 @@ func (o *Options) Token(ctx context.Context) (*auth.Token, error) {
 	}
 	logger.DebugContext(ctx, "impersonated token request", "request", internallog.HTTPRequest(req, b))
 
-	fmt.Println("!! DEBUG !! impersonated token request body", b)
+	fmt.Println("!! DEBUG !! impersonated token request body", reqBody)
 
 	resp, body, err := internal.DoRequest(o.Client, req)
 	if err != nil {
